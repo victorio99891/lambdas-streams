@@ -13,7 +13,9 @@ public class Deck {
 
     public static List<Card> getNewDeck() {
         List<Card> deck = new ArrayList<>();
-        Figure.getAllFigures().forEach(figure -> Stream.of(Suit.values()).forEach(suit -> deck.add(new Card(suit, figure))));
+        Figure.getAllFigures()
+                .forEach(figure -> Stream.of(Suit.values())
+                        .forEach(suit -> deck.add(new Card(suit, figure))));
         return deck;
     }
 
