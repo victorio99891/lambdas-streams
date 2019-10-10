@@ -26,15 +26,20 @@ public enum Figure {
 
     public static List<Figure> getNonNamed() {
         return Stream.of(Figure.values())
-                .filter(figure ->
-                        figure != Figure.ACE && figure != Figure.KING && figure != Figure.QUEEN && figure != Figure.JACK)
+                .filter(figure -> !isNamedFigure(figure))
                 .collect(Collectors.toList());
     }
 
     public static List<Figure> getNamed() {
         return Stream.of(Figure.values())
-                .filter(figure ->
-                        figure == Figure.ACE || figure == Figure.KING || figure == Figure.QUEEN || figure == Figure.JACK)
+                .filter(Figure::isNamedFigure)
                 .collect(Collectors.toList());
+    }
+
+    private static boolean isNamedFigure(Figure figure) {
+        return figure == Figure.ACE ||
+                figure == Figure.KING ||
+                figure == Figure.QUEEN ||
+                figure == Figure.JACK;
     }
 }
