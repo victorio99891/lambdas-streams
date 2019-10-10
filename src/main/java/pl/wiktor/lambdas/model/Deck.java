@@ -13,10 +13,18 @@ public class Deck {
 
     public static List<Card> getNewDeck() {
         List<Card> deck = new ArrayList<>();
-        Figure.getAllFigures()
-                .forEach(figure -> Stream.of(Suit.values())
-                        .forEach(suit -> deck.add(new Card(suit, figure))));
+        Figure.getAllFiguresStream()
+                .forEach(figure -> getSuitStream()
+                        .forEach(suit -> addNewCardToDeck(deck, figure, suit)));
         return deck;
+    }
+
+    private static Stream<Suit> getSuitStream() {
+        return Stream.of(Suit.values());
+    }
+
+    private static void addNewCardToDeck(List<Card> deck, Figure figure, Suit suit) {
+        deck.add(new Card(suit, figure));
     }
 
 

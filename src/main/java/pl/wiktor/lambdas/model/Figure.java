@@ -1,7 +1,5 @@
 package pl.wiktor.lambdas.model;
 
-import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public enum Figure {
@@ -19,21 +17,18 @@ public enum Figure {
     KING,
     ACE;
 
-    public static List<Figure> getAllFigures() {
-        return Stream.of(Figure.values())
-                .collect(Collectors.toList());
+    public static Stream<Figure> getAllFiguresStream() {
+        return Stream.of(Figure.values());
     }
 
-    public static List<Figure> getNonNamed() {
+    public static Stream<Figure> getNonNamedStream() {
         return Stream.of(Figure.values())
-                .filter(figure -> !isNamedFigure(figure))
-                .collect(Collectors.toList());
+                .filter(figure -> !isNamedFigure(figure));
     }
 
-    public static List<Figure> getNamed() {
+    public static Stream<Figure> getNamedStream() {
         return Stream.of(Figure.values())
-                .filter(Figure::isNamedFigure)
-                .collect(Collectors.toList());
+                .filter(Figure::isNamedFigure);
     }
 
     private static boolean isNamedFigure(Figure figure) {

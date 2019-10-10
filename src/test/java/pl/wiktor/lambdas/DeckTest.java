@@ -8,9 +8,7 @@ import pl.wiktor.lambdas.model.Figure;
 import pl.wiktor.lambdas.model.Suit;
 import pl.wiktor.lambdas.repo.DeckRepository;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -26,29 +24,37 @@ class DeckTest {
     }
 
     @Test
+    void shouldReturnAtLeastOneCardInstance() {
+        Optional<Card> atLeastOneCard = deckRepository.getNewDeck()
+                .stream()
+                .findAny();
+
+        assertTrue(atLeastOneCard.isPresent());
+        assertTrue(atLeastOneCard.get() instanceof Card);
+    }
+
+    @Test
     void shouldCreateNewDeck() {
         assertNotNull(deckRepository.getNewDeck());
     }
 
     @Test
-    void shouldContainsAceSpades() {
-        List<Card> aces = deckRepository.getNewDeck()
+    void shouldReturnAceSpades() {
+        Optional<Card> actual = deckRepository.getNewDeck()
                 .stream()
                 .filter(card -> Figure.ACE.equals(card.getFigure()))
-                .collect(Collectors.toList());
+                .filter(card -> Suit.SPADES.equals(card.getSuit()))
+                .findAny();
 
-        Optional<Card> aceSpades = aces.stream()
-                .filter(ace -> ace.getSuit().equals(Suit.SPADES)).findAny();
-
-        assertTrue(aceSpades.isPresent());
+        assertTrue(actual.isPresent());
     }
 
     @Test
     void shouldContainsKingHearts() {
         Card expected = new Card(Suit.HEARTS, Figure.KING);
-        Optional<Card> optCard = Optional.of(
-                deckRepository.getNewDeck().stream()
-                        .filter(card -> card.equals(expected))).get().findAny();
+        Optional<Card> optCard = deckRepository.getNewDeck()
+                .stream()
+                .filter(card -> card.equals(expected)).findAny();
 
         assertTrue(optCard.isPresent());
     }
